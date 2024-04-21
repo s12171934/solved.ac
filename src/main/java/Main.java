@@ -1,27 +1,25 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
-        while (true) {
-            String str = bufferedReader.readLine();
-            if(str.equals("0")) break;
+        int n = Integer.parseInt(bufferedReader.readLine());
+        int sum = 0;
+        int max = 0;
 
-            String result = "yes";
+        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
 
-            for (int i = 0; i < str.length() / 2; i++) {
-                if (str.charAt(i) != str.charAt(str.length() - i - 1)){
-                    result = "no";
-                    break;
-                }
-            }
-
-            System.out.println(result);
-
+        for (int i = 0; i < n; i++) {
+            int num = Integer.parseInt(stringTokenizer.nextToken());
+            sum += num;
+            max = Math.max(max, num);
         }
+
+        System.out.println(((double)sum / max * 100) / n );
 
         bufferedReader.close();
     }
