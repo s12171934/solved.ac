@@ -9,7 +9,7 @@ public class Main {
         while (true) {
             String str = bufferedReader.readLine();
 
-            if (str == null || str.isEmpty()){
+            if (str == null || str.equals("0 0")){
                 break;
             }
 
