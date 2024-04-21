@@ -1,25 +1,31 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        int n = Integer.parseInt(bufferedReader.readLine());
 
-        int n = Integer.parseInt(stringTokenizer.nextToken());
-        int k = Integer.parseInt(stringTokenizer.nextToken());
-        System.out.println(combination(n,k));
+        String[] str = new String[n];
+        for (int i = 0; i < n; i++) {
+            str[i] = bufferedReader.readLine();
+        }
 
         bufferedReader.close();
+
+        for(Object s : Arrays.stream(str).distinct().sorted(Main::compare).toArray()){
+            System.out.println(s);
+        }
     }
 
-    static int combination(int n, int k) {
-        double prod = 1;
-        for (int i = 0; i < k; i++) {
-            prod *= (double)(n - i) / (i + 1);
+    static int compare(String s1, String s2) {
+        if (s1.length() == s2.length()) {
+            return s1.compareTo(s2);
         }
-        return (int)prod;
+        else {
+            return s1.length() - s2.length();
+        }
     }
 }
