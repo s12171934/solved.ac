@@ -10,8 +10,18 @@ public class Main {
         String str = bufferedReader.readLine();
         bufferedReader.close();
 
-        String[] nums = str.split(" ");
+        int a = Integer.parseInt(str.split(" ")[0]);
+        int b = Integer.parseInt(str.split(" ")[1]);
 
-        System.out.println(Double.parseDouble(nums[0]) / Integer.parseInt(nums[1]));
+        String result = "==";
+
+        if (a > b) {
+            result = ">";
+        }
+        if (a < b) {
+            result = "<";
+        }
+
+        System.out.println(result);
     }
 }
