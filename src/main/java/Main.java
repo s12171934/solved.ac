@@ -6,21 +6,20 @@ import java.util.StringTokenizer;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-
-        int n = Integer.parseInt(bufferedReader.readLine());
-        int sum = 0;
-        int max = 0;
-
         StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
 
-        for (int i = 0; i < n; i++) {
-            int num = Integer.parseInt(stringTokenizer.nextToken());
-            sum += num;
-            max = Math.max(max, num);
-        }
-
-        System.out.println(((double)sum / max * 100) / n );
+        int a = Integer.parseInt(stringTokenizer.nextToken());
+        int b = Integer.parseInt(stringTokenizer.nextToken());
+        int gcd = gcd(a,b);
+        System.out.println(gcd + "\n" + a * b / gcd);
 
         bufferedReader.close();
+    }
+
+    static int gcd(int a, int b) {
+        if (b == 0) {
+            return a;
+        }
+        return gcd(b, a % b);
     }
 }
