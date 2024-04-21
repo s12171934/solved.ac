@@ -5,21 +5,16 @@ import java.io.InputStreamReader;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-
-        int n = Integer.parseInt(bufferedReader.readLine());
         String[] str = bufferedReader.readLine().split(" ");
         bufferedReader.close();
 
-        int min = 1000000;
-        int max = -1000000;
+        int a = Integer.parseInt(str[0]);
+        int b = Integer.parseInt(str[1]);
 
-        for (String s : str) {
-            int target = Integer.parseInt(s);
-
-            min = Math.min(min, target);
-            max = Math.max(max, target);
-        }
-
-        System.out.println(min + " " + max);
+        System.out.println(a + b);
+        System.out.println(a - b);
+        System.out.println(a * b);
+        System.out.println(a / b);
+        System.out.println(a % b);
     }
 }
