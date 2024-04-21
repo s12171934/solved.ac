@@ -5,20 +5,9 @@ import java.io.InputStreamReader;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-
-        while (true) {
-            String str = bufferedReader.readLine();
-
-            if (str == null || str.equals("0 0")){
-                break;
-            }
-
-            int a = Integer.parseInt(str.split(" ")[0]);
-            int b = Integer.parseInt(str.split(" ")[1]);
-
-            System.out.println(a + b);
-        }
-
+        String str = bufferedReader.readLine();
         bufferedReader.close();
+
+        System.out.println((int)str.charAt(0));
     }
 }
