@@ -7,16 +7,32 @@ import java.io.InputStreamReader;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        String str = bufferedReader.readLine();
-        bufferedReader.close();
 
-        int n = Integer.parseInt(str);
+        String str;
 
-        for (int i = 1; i <= n; i++) {
-            for (int j = 0; j < i; j++) {
-                System.out.print("*");
+        int max = 0;
+        int idx = 0;
+        int count = 0;
+
+        while (true) {
+            str = bufferedReader.readLine();
+
+            if (str == null || str.isEmpty()) {
+                break;
             }
-            System.out.println();
+
+            int n = Integer.parseInt(str);
+            count++;
+
+            if (max < n) {
+                max = n;
+                idx = count;
+            }
         }
+
+        System.out.println(max);
+        System.out.println(idx);
+
+        bufferedReader.close();
     }
 }
