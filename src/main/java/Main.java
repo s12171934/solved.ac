@@ -8,18 +8,18 @@ public class Main {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
 
-        int a = Integer.parseInt(stringTokenizer.nextToken());
-        int b = Integer.parseInt(stringTokenizer.nextToken());
-        int gcd = gcd(a,b);
-        System.out.println(gcd + "\n" + a * b / gcd);
+        int n = Integer.parseInt(stringTokenizer.nextToken());
+        int k = Integer.parseInt(stringTokenizer.nextToken());
+        System.out.println(combination(n,k));
 
         bufferedReader.close();
     }
 
-    static int gcd(int a, int b) {
-        if (b == 0) {
-            return a;
+    static int combination(int n, int k) {
+        double prod = 1;
+        for (int i = 0; i < k; i++) {
+            prod *= (double)(n - i) / (i + 1);
         }
-        return gcd(b, a % b);
+        return (int)prod;
     }
 }
