@@ -5,17 +5,10 @@ import java.io.InputStreamReader;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        String str = bufferedReader.readLine();
         int n = Integer.parseInt(bufferedReader.readLine());
-
-        int result = 0;
-
-        for (int i = 0; i < n; i++) {
-            int num = bufferedReader.read() - 48;
-            result += num;
-        }
-
-        System.out.println(result);
-
         bufferedReader.close();
+
+        System.out.println(str.charAt(n - 1));
     }
 }
