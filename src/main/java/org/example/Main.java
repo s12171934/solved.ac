@@ -10,18 +10,13 @@ public class Main {
         String str = bufferedReader.readLine();
         bufferedReader.close();
 
-        int a = Integer.parseInt(str.split(" ")[0]);
-        int b = Integer.parseInt(str.split(" ")[1]);
+        int n = Integer.parseInt(str);
 
-        String result = "==";
-
-        if (a > b) {
-            result = ">";
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                System.out.print("*");
+            }
+            System.out.println();
         }
-        if (a < b) {
-            result = "<";
-        }
-
-        System.out.println(result);
     }
 }
