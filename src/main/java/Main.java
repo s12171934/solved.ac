@@ -7,10 +7,19 @@ public class Main {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
         int n = Integer.parseInt(bufferedReader.readLine());
+        String[] str = bufferedReader.readLine().split(" ");
         bufferedReader.close();
 
-        for (int i = 1; i <= 9; i++) {
-            System.out.println(n + " * " + i + " = " + n * i);
+        int min = 1000000;
+        int max = -1000000;
+
+        for (String s : str) {
+            int target = Integer.parseInt(s);
+
+            min = Math.min(min, target);
+            max = Math.max(max, target);
         }
+
+        System.out.println(min + " " + max);
     }
 }
