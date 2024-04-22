@@ -2,68 +2,49 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder stringBuilder = new StringBuilder();
         int n = Integer.parseInt(bufferedReader.readLine());
-        int[] deque = new int[n];
-        int size = 0;
+        Set<String> set = new HashSet<>();
 
         for (int i = 0; i < n; i++) {
             String[] str = bufferedReader.readLine().split(" ");
 
             switch (str[0]) {
-                case "push_front" :
-                    for (int j = size - 1; j >= 0; j--) {
-                        deque[j + 1] = deque[j];
+                case "add" :
+                    set.add(str[1]);
+                    break;
+
+                case "remove" :
+                    set.remove(str[1]);
+                    break;
+
+                case "check" :
+                    stringBuilder.append(set.contains(str[1]) ? 1 : 0).append("\n");
+                    break;
+
+                case "toggle" :
+                    if (set.contains(str[1])) {
+                        set.remove(str[1]);
                     }
-                    deque[0] = Integer.parseInt(str[1]);
-                    size++;
-                    break;
-
-                case "push_back" :
-                    deque[size] = Integer.parseInt(str[1]);
-                    size++;
-                    break;
-
-                case "pop_front" :
-                    stringBuilder.append(deque[0] == 0 ? -1 : deque[0]).append("\n");
-                    if (deque[0] == 0) break;
-
-                    for (int j = 0; j < size - 1; j++) {
-                        deque[j] = deque[j + 1];
+                    else {
+                        set.add(str[1]);
                     }
-                    deque[size - 1] = 0;
-                    size--;
                     break;
 
-                case "pop_back" :
-                    stringBuilder.append(deque[0] == 0 ? -1 : deque[size - 1]).append("\n");
-                    if (deque[0] == 0) break;
-
-                    deque[size - 1] = 0;
-                    size--;
-                    break;
-
-                case "size" :
-                    stringBuilder.append(size).append("\n");
+                case "all" :
+                    set = new HashSet<>(Arrays.asList("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"));
                     break;
 
                 case "empty" :
-                    stringBuilder.append(deque[0] == 0 ? 1 : 0).append("\n");
-                    break;
-
-                case "front" :
-                    stringBuilder.append(deque[0] == 0 ? -1 : deque[0]).append("\n");
-                    break;
-
-                case "back" :
-                    stringBuilder.append(deque[0] == 0 ? -1 : deque[size - 1]).append("\n");
+                    set = new HashSet<>();
                     break;
             }
-
         }
 
         System.out.println(stringBuilder);
