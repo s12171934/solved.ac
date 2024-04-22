@@ -1,48 +1,34 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("<");
 
-        int n = Integer.parseInt(stringTokenizer.nextToken());
-        int k = Integer.parseInt(stringTokenizer.nextToken());
+        int n = Integer.parseInt(bufferedReader.readLine());
+        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        Set<Integer> set = new HashSet<>();
 
-        bufferedReader.close();
-
-        Queue<Integer> queue = new LinkedList<>();
-
-        for (int i = 1; i <= n; i++) {
-            queue.add(i);
+        for (int i = 0; i < n; i++) {
+            set.add(Integer.parseInt(stringTokenizer.nextToken()));
         }
 
-        int times = 1;
+        int m = Integer.parseInt(bufferedReader.readLine());
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
 
-        while (true) {
-            int target = queue.poll();
-            if (times % k == 0) {
-                 stringBuilder.append(target);
-                 if (queue.isEmpty()) {
-                     stringBuilder.append(">");
-                     break;
-                 }
-                 else {
-                     stringBuilder.append(", ");
-                 }
+        for (int i = 0; i < m; i++) {
+            if (set.contains(Integer.parseInt(stringTokenizer.nextToken()))) {
+                stringBuilder.append("1\n");
             }
             else {
-                queue.add(target);
+                stringBuilder.append("0\n");
             }
-            times++;
         }
-
         System.out.println(stringBuilder);
     }
 }
