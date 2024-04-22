@@ -1,34 +1,24 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder stringBuilder = new StringBuilder();
-
         int n = Integer.parseInt(bufferedReader.readLine());
-        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-        Set<Integer> set = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
 
-        for (int i = 0; i < n; i++) {
-            set.add(Integer.parseInt(stringTokenizer.nextToken()));
+        for (int i = 1; i <= n; i++) {
+            queue.add(i);
         }
 
-        int m = Integer.parseInt(bufferedReader.readLine());
-        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-
-        for (int i = 0; i < m; i++) {
-            if (set.contains(Integer.parseInt(stringTokenizer.nextToken()))) {
-                stringBuilder.append("1\n");
-            }
-            else {
-                stringBuilder.append("0\n");
-            }
+        for (int i = 0; i < n - 1; i++) {
+            queue.poll();
+            queue.add(queue.poll());
         }
-        System.out.println(stringBuilder);
+
+        System.out.println(queue.poll());
     }
 }
