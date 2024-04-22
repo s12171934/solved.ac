@@ -1,24 +1,27 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder stringBuilder = new StringBuilder();
         int n = Integer.parseInt(bufferedReader.readLine());
-        Queue<Integer> queue = new LinkedList<>();
+        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        Map<String, Integer> map = new HashMap<>();
 
-        for (int i = 1; i <= n; i++) {
-            queue.add(i);
+        for (int i = 0; i < n; i++) {
+            String target = stringTokenizer.nextToken();
+            map.put(target, map.getOrDefault(target, 0) + 1);
         }
 
-        for (int i = 0; i < n - 1; i++) {
-            queue.poll();
-            queue.add(queue.poll());
-        }
+        int m = Integer.parseInt(bufferedReader.readLine());
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
 
-        System.out.println(queue.poll());
+        for (int i = 0; i < m; i++) {
+            stringBuilder.append(map.getOrDefault(stringTokenizer.nextToken(),0)).append(" ");
+        }
+        System.out.println(stringBuilder);
     }
 }
