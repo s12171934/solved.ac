@@ -1,37 +1,30 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Main {
+
+    static int[] mem = new int[100];
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder stringBuilder = new StringBuilder();
-        String[] str = bufferedReader.readLine().split(" ");
-        int n = Integer.parseInt(str[0]);
-        int m = Integer.parseInt(str[1]);
+        int n = Integer.parseInt(bufferedReader.readLine());
+        mem[1] = 1;
 
-        Map<String, Integer> name_id = new HashMap<>();
-        Map<Integer, String> id_name = new HashMap<>();
-
-        for (int i = 1; i <= n; i++) {
-            String name = bufferedReader.readLine();
-            name_id.put(name, i);
-            id_name.put(i,name);
-        }
-
-        for (int i = 0; i < m; i++) {
-            String quiz = bufferedReader.readLine();
-            try {
-                stringBuilder.append(id_name.get(Integer.parseInt(quiz))).append("\n");
-            }
-            catch (NumberFormatException e) {
-                stringBuilder.append(name_id.get(quiz)).append("\n");
-            }
+        for (int i = 0; i < n; i++) {
+            int num = Integer.parseInt(bufferedReader.readLine());
+            stringBuilder.append(num == 0 ? 1 : fibonacci(num - 1)).append(" ").append(fibonacci(num)).append("\n");
         }
 
         System.out.println(stringBuilder);
         bufferedReader.close();
+    }
+
+    static int fibonacci(int n) {
+        if (n < 2 || mem[n] != 0) {
+            return mem[n];
+        }
+        mem[n] = fibonacci(n - 1) + fibonacci(n - 2);
+        return mem[n];
     }
 }
