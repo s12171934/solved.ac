@@ -1,30 +1,28 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
-
-    static int[] mem = new int[100];
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder stringBuilder = new StringBuilder();
         int n = Integer.parseInt(bufferedReader.readLine());
-        mem[1] = 1;
+
+        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) {
+            nums[i] = Integer.parseInt(stringTokenizer.nextToken());
+        }
+
+        Arrays.sort(nums);
+        int result = 0;
 
         for (int i = 0; i < n; i++) {
-            int num = Integer.parseInt(bufferedReader.readLine());
-            stringBuilder.append(num == 0 ? 1 : fibonacci(num - 1)).append(" ").append(fibonacci(num)).append("\n");
+            result += (n - i) * nums[i];
         }
 
-        System.out.println(stringBuilder);
+        System.out.println(result);
         bufferedReader.close();
-    }
-
-    static int fibonacci(int n) {
-        if (n < 2 || mem[n] != 0) {
-            return mem[n];
-        }
-        mem[n] = fibonacci(n - 1) + fibonacci(n - 2);
-        return mem[n];
     }
 }
