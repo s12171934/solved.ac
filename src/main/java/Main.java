@@ -1,49 +1,33 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder stringBuilder = new StringBuilder();
-        int n = Integer.parseInt(bufferedReader.readLine());
-        Set<String> set = new HashSet<>();
+        String[] str = bufferedReader.readLine().split(" ");
+        int n = Integer.parseInt(str[0]);
+        int m = Integer.parseInt(str[1]);
 
-        for (int i = 0; i < n; i++) {
-            String[] str = bufferedReader.readLine().split(" ");
+        Map<String, Integer> name_id = new HashMap<>();
+        Map<Integer, String> id_name = new HashMap<>();
 
-            switch (str[0]) {
-                case "add" :
-                    set.add(str[1]);
-                    break;
+        for (int i = 1; i <= n; i++) {
+            String name = bufferedReader.readLine();
+            name_id.put(name, i);
+            id_name.put(i,name);
+        }
 
-                case "remove" :
-                    set.remove(str[1]);
-                    break;
-
-                case "check" :
-                    stringBuilder.append(set.contains(str[1]) ? 1 : 0).append("\n");
-                    break;
-
-                case "toggle" :
-                    if (set.contains(str[1])) {
-                        set.remove(str[1]);
-                    }
-                    else {
-                        set.add(str[1]);
-                    }
-                    break;
-
-                case "all" :
-                    set = new HashSet<>(Arrays.asList("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"));
-                    break;
-
-                case "empty" :
-                    set = new HashSet<>();
-                    break;
+        for (int i = 0; i < m; i++) {
+            String quiz = bufferedReader.readLine();
+            try {
+                stringBuilder.append(id_name.get(Integer.parseInt(quiz))).append("\n");
+            }
+            catch (NumberFormatException e) {
+                stringBuilder.append(name_id.get(quiz)).append("\n");
             }
         }
 
