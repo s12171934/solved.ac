@@ -1,42 +1,43 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        String[] str = bufferedReader.readLine().split(" ");
-        int n = Integer.parseInt(str[0]);
-        int m = Integer.parseInt(str[1]);
-        char[][] plate = new char[n][m];
+        StringBuilder stringBuilder = new StringBuilder();
+        int n = Integer.parseInt(bufferedReader.readLine());
+        Stack<String> stack = new Stack<>();
 
         for (int i = 0; i < n; i++) {
-            plate[i] = bufferedReader.readLine().toCharArray();
-        }
+            String[] str = bufferedReader.readLine().split(" ");
 
-        int result = 64;
+            switch (str[0]) {
+                case "push" :
+                    stack.push(str[1]);
+                    break;
 
-        for (int i = 0; i < n - 7; i++) {
-            for (int j = 0; j < m - 7; j++) {
-                int count = 0;
+                case "pop" :
+                    stringBuilder.append(stack.isEmpty() ? -1 : stack.pop()).append("\n");
+                    break;
 
-                for (int k = i; k < i + 8; k++) {
-                    for (int l = j; l < j + 8; l++) {
-                        if((k + l) % 2 == 0 && plate[k][l] == 'B'){
-                            count++;
-                        }
-                        if((k + l) % 2 == 1 && plate[k][l] == 'W'){
-                            count++;
-                        }
-                    }
-                }
+                case "size" :
+                    stringBuilder.append(stack.size()).append("\n");
+                    break;
 
-                count = Math.min(count, 64 - count);
-                result = Math.min(result, count);
+                case "empty" :
+                    stringBuilder.append(stack.isEmpty() ? 1 : 0).append("\n");
+                    break;
+
+                case "top" :
+                    stringBuilder.append(stack.isEmpty() ? -1 : stack.peek()).append("\n");
+                    break;
             }
+
         }
 
-        System.out.println(result);
+        System.out.println(stringBuilder);
         bufferedReader.close();
     }
 }
