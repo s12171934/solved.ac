@@ -1,39 +1,48 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         StringBuilder stringBuilder = new StringBuilder();
-        int n = Integer.parseInt(bufferedReader.readLine());
+        stringBuilder.append("<");
 
-        String[] str = new String[n];
-        for (int i = 0; i < n; i++) {
-            str[i] = bufferedReader.readLine();
-        }
+        int n = Integer.parseInt(stringTokenizer.nextToken());
+        int k = Integer.parseInt(stringTokenizer.nextToken());
 
         bufferedReader.close();
 
-        for(Object s : Arrays.stream(str).sorted(Main::compare).toArray()){
-            stringBuilder.append(s).append("\n");
+        Queue<Integer> queue = new LinkedList<>();
+
+        for (int i = 1; i <= n; i++) {
+            queue.add(i);
+        }
+
+        int times = 1;
+
+        while (true) {
+            int target = queue.poll();
+            if (times % k == 0) {
+                 stringBuilder.append(target);
+                 if (queue.isEmpty()) {
+                     stringBuilder.append(">");
+                     break;
+                 }
+                 else {
+                     stringBuilder.append(", ");
+                 }
+            }
+            else {
+                queue.add(target);
+            }
+            times++;
         }
 
         System.out.println(stringBuilder);
-    }
-
-    static int compare(String s1, String s2) {
-        int x1 = Integer.parseInt(s1.split(" ")[0]);
-        int x2 = Integer.parseInt(s2.split(" ")[0]);
-        int y1 = Integer.parseInt(s1.split(" ")[1]);
-        int y2 = Integer.parseInt(s2.split(" ")[1]);
-
-        if (x1 != x2) {
-            return x1 - x2;
-        }
-        else {
-            return y1 - y2;
-        }
     }
 }
