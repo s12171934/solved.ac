@@ -24,9 +24,16 @@ public class Main {
     }
 
     static int compare(String s1, String s2) {
-        int age1 = Integer.parseInt(s1.split(" ")[0]);
-        int age2 = Integer.parseInt(s2.split(" ")[0]);
+        int x1 = Integer.parseInt(s1.split(" ")[0]);
+        int x2 = Integer.parseInt(s2.split(" ")[0]);
+        int y1 = Integer.parseInt(s1.split(" ")[1]);
+        int y2 = Integer.parseInt(s2.split(" ")[1]);
 
-        return age1 - age2;
+        if (x1 != x2) {
+            return x1 - x2;
+        }
+        else {
+            return y1 - y2;
+        }
     }
 }
