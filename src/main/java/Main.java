@@ -4,31 +4,37 @@ import java.io.InputStreamReader;
 
 
 public class Main {
-
-    static int[] mem;
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder stringBuilder = new StringBuilder();
-        int n = Integer.parseInt(bufferedReader.readLine());
-        mem = new int[11];
-        mem[0] = 1;
-        mem[1] = 1;
-        mem[2] = 2;
+        String[] str = bufferedReader.readLine().split(" ");
 
-        for (int i = 0; i < n; i++) {
-            stringBuilder.append(oneTwoThree(Integer.parseInt(bufferedReader.readLine()))).append("\n");
-        }
+        int n = Integer.parseInt(str[0]);
+        int r = Integer.parseInt(str[1]);
+        int c = Integer.parseInt(str[2]);
 
-        bufferedReader.close();
-
-        System.out.println(stringBuilder);
+        System.out.println(findZ(n, r, c, 0));
     }
 
-    static int oneTwoThree(int n) {
-        if (mem[n] == 0) {
-            mem[n] = oneTwoThree(n - 1) + oneTwoThree(n -2) + oneTwoThree(n - 3);
+    static int findZ (int n, int r, int c, int count) {
+        if (n == 1) {
+            return count + 2 * r + c;
         }
 
-        return mem[n];
+        int t = 0;
+
+        if (r / (int)Math.pow(2,n - 1) == 1) {
+            t += 2;
+            r %= (int)Math.pow(2,n - 1);
+        }
+
+        if (c / (int)Math.pow(2,n - 1) == 1) {
+            t += 1;
+            c %= (int)Math.pow(2,n - 1);
+        }
+
+        count += t * (int)Math.pow(4, n - 1);
+
+        return findZ(n - 1, r, c, count);
     }
+
 }
