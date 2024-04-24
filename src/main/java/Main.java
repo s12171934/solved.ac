@@ -1,40 +1,41 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        String[] str = bufferedReader.readLine().split(" ");
+        StringTokenizer stringTokenizer;
+        int n = Integer.parseInt(bufferedReader.readLine());
+        int[][] list = new int[n][2];
+        for(int i = 0; i < n; i++) {
+            stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+            list[i] = new int[]{Integer.parseInt(stringTokenizer.nextToken()), Integer.parseInt(stringTokenizer.nextToken())};
+        }
 
-        int n = Integer.parseInt(str[0]);
-        int r = Integer.parseInt(str[1]);
-        int c = Integer.parseInt(str[2]);
+        Arrays.sort(list, (l1, l2) -> {
+            if (l1[1] - l2[1] == 0) {
+                return l1[0] - l2[0];
+            }
+            return l1[1] - l2[1];
+        });
 
-        System.out.println(findZ(n, r, c, 0));
+        int count = 0;
+        int pointer = 0;
+
+        while(pointer != n){
+            int end = list[pointer][1];
+
+            for (pointer = pointer + 1; pointer < n; pointer++) {
+                if (list[pointer][0] >= end) {
+                    break;
+                }
+            }
+
+            count++;
+        }
+
+        System.out.println(count);
     }
-
-    static int findZ (int n, int r, int c, int count) {
-        if (n == 1) {
-            return count + 2 * r + c;
-        }
-
-        int t = 0;
-
-        if (r / (int)Math.pow(2,n - 1) == 1) {
-            t += 2;
-            r %= (int)Math.pow(2,n - 1);
-        }
-
-        if (c / (int)Math.pow(2,n - 1) == 1) {
-            t += 1;
-            c %= (int)Math.pow(2,n - 1);
-        }
-
-        count += t * (int)Math.pow(4, n - 1);
-
-        return findZ(n - 1, r, c, count);
-    }
-
 }
