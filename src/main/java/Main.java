@@ -1,36 +1,34 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
 
 
 public class Main {
+
+    static int[] mem;
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder stringBuilder = new StringBuilder();
-
-
         int n = Integer.parseInt(bufferedReader.readLine());
-        int[] answer = new int[n];
-        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-        for (int i = 0; i < n; i++) {
-            int num = Integer.parseInt(stringTokenizer.nextToken());
-            answer[i] = num;
-        }
-
-        int[] sort = Arrays.stream(answer).distinct().sorted().toArray();
-        Map<Integer, Integer> map = new HashMap<>();
-
-        for (int i = 0; i < sort.length; i++) {
-            map.put(sort[i],i);
-        }
-
+        mem = new int[11];
+        mem[0] = 1;
+        mem[1] = 1;
+        mem[2] = 2;
 
         for (int i = 0; i < n; i++) {
-            stringBuilder.append(map.get(answer[i])).append(" ");
+            stringBuilder.append(oneTwoThree(Integer.parseInt(bufferedReader.readLine()))).append("\n");
         }
+
+        bufferedReader.close();
 
         System.out.println(stringBuilder);
-        bufferedReader.close();
+    }
+
+    static int oneTwoThree(int n) {
+        if (mem[n] == 0) {
+            mem[n] = oneTwoThree(n - 1) + oneTwoThree(n -2) + oneTwoThree(n - 3);
+        }
+
+        return mem[n];
     }
 }
