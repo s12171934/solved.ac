@@ -6,36 +6,38 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder stringBuilder = new StringBuilder();
         StringTokenizer stringTokenizer;
-        int n = Integer.parseInt(bufferedReader.readLine());
-        int[][] list = new int[n][2];
-        for(int i = 0; i < n; i++) {
+        String[] str = bufferedReader.readLine().split(" ");
+        int n = Integer.parseInt(str[0]);
+        int m = Integer.parseInt(str[1]);
+
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(stringTokenizer.nextToken());
+            if (i != 0) {
+                arr[i] += arr[i -1];
+            }
+        }
+
+
+        for (int i = 0; i < m; i++) {
             stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-            list[i] = new int[]{Integer.parseInt(stringTokenizer.nextToken()), Integer.parseInt(stringTokenizer.nextToken())};
-        }
+            int start = Integer.parseInt(stringTokenizer.nextToken());
+            int end = Integer.parseInt(stringTokenizer.nextToken());
 
-        Arrays.sort(list, (l1, l2) -> {
-            if (l1[1] - l2[1] == 0) {
-                return l1[0] - l2[0];
-            }
-            return l1[1] - l2[1];
-        });
+            int sum = arr[end - 1];
 
-        int count = 0;
-        int pointer = 0;
-
-        while(pointer != n){
-            int end = list[pointer][1];
-
-            for (pointer = pointer + 1; pointer < n; pointer++) {
-                if (list[pointer][0] >= end) {
-                    break;
-                }
+            if (start != 1) {
+                sum -= arr[start - 2];
             }
 
-            count++;
+            stringBuilder.append(sum).append("\n");
         }
 
-        System.out.println(count);
+        System.out.println(stringBuilder);
+
+        bufferedReader.close();
     }
 }
