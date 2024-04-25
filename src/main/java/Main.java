@@ -1,39 +1,55 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder stringBuilder = new StringBuilder();
-        StringTokenizer stringTokenizer;
-        String[] str = bufferedReader.readLine().split(" ");
-        int n = Integer.parseInt(str[0]);
-        int m = Integer.parseInt(str[1]);
+        int n = Integer.parseInt(bufferedReader.readLine());
+        int[] minHeap = new int[n + 1];
+        int heapSize = 0;
 
-        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-        int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(stringTokenizer.nextToken());
-            if (i != 0) {
-                arr[i] += arr[i -1];
+            int m = Integer.parseInt(bufferedReader.readLine());
+
+            if (m == 0) {
+                stringBuilder.append(minHeap[1]).append("\n");
+                if (minHeap[1] == 0) {
+                    continue;
+                }
+                minHeap[1] = minHeap[heapSize];
+                minHeap[heapSize] = 0;
+                heapSize--;
+
+                int idx = 1;
+                while (idx * 2 <= heapSize) {
+                    int leftOrRight = idx * 2;
+                    if (idx * 2 + 1 <= heapSize && minHeap[idx * 2] > minHeap[idx * 2 + 1]) {
+                        leftOrRight += 1;
+                    }
+                    if (minHeap[idx] > minHeap[leftOrRight]) {
+                        int temp = minHeap[idx];
+                        minHeap[idx] = minHeap[leftOrRight];
+                        minHeap[leftOrRight] = temp;
+                    }
+
+                    idx = leftOrRight;
+                }
+
+
             }
-        }
-
-
-        for (int i = 0; i < m; i++) {
-            stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-            int start = Integer.parseInt(stringTokenizer.nextToken());
-            int end = Integer.parseInt(stringTokenizer.nextToken());
-
-            int sum = arr[end - 1];
-
-            if (start != 1) {
-                sum -= arr[start - 2];
+            else {
+                heapSize++;
+                minHeap[heapSize] = m;
+                int idx = heapSize;
+                while (idx > 1 && minHeap[idx/2] > minHeap[idx]) {
+                    int temp = minHeap[idx];
+                    minHeap[idx] = minHeap[idx/2];
+                    minHeap[idx/2] = temp;
+                    idx /= 2;
+                }
             }
-
-            stringBuilder.append(sum).append("\n");
         }
 
         System.out.println(stringBuilder);
