@@ -1,59 +1,52 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
+    static int blue = 0;
+    static int white = 0;
+    static int[][] paper;
+
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder stringBuilder = new StringBuilder();
+        StringTokenizer stringTokenizer;
         int n = Integer.parseInt(bufferedReader.readLine());
-        int[] minHeap = new int[n + 1];
-        int heapSize = 0;
-
+        paper = new int[n][n];
         for (int i = 0; i < n; i++) {
-            int m = Integer.parseInt(bufferedReader.readLine());
-
-            if (m == 0) {
-                stringBuilder.append(minHeap[1]).append("\n");
-                if (minHeap[1] == 0) {
-                    continue;
-                }
-                minHeap[1] = minHeap[heapSize];
-                minHeap[heapSize] = 0;
-                heapSize--;
-
-                int idx = 1;
-                while (idx * 2 <= heapSize) {
-                    int leftOrRight = idx * 2;
-                    if (idx * 2 + 1 <= heapSize && minHeap[idx * 2] > minHeap[idx * 2 + 1]) {
-                        leftOrRight += 1;
-                    }
-                    if (minHeap[idx] > minHeap[leftOrRight]) {
-                        int temp = minHeap[idx];
-                        minHeap[idx] = minHeap[leftOrRight];
-                        minHeap[leftOrRight] = temp;
-                    }
-
-                    idx = leftOrRight;
-                }
-
-
-            }
-            else {
-                heapSize++;
-                minHeap[heapSize] = m;
-                int idx = heapSize;
-                while (idx > 1 && minHeap[idx/2] > minHeap[idx]) {
-                    int temp = minHeap[idx];
-                    minHeap[idx] = minHeap[idx/2];
-                    minHeap[idx/2] = temp;
-                    idx /= 2;
-                }
+            stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+            for (int j = 0; j < n; j++) {
+                paper[i][j] = Integer.parseInt(stringTokenizer.nextToken());
             }
         }
 
-        System.out.println(stringBuilder);
+        cut(0, n - 1, 0, n - 1);
+
+
+        System.out.println(white + "\n" + blue);
 
         bufferedReader.close();
+    }
+
+    static void cut(int x1, int x2, int y1, int y2) {
+        int sum = 0;
+        for (int i = x1; i <= x2; i++) {
+            for (int j = y1; j <= y2; j++) {
+                sum += paper[j][i];
+            }
+        }
+
+        if (sum == 0) {
+            white++;
+        }
+        else if (sum == (x2 - x1 + 1) * (y2 - y1 + 1)) {
+            blue++;
+        }
+        else {
+            cut(x1, (x1 + x2) / 2, y1, (y1 + y2) / 2);
+            cut((x1 + x2) / 2 + 1, x2, y1, (y1 + y2) / 2);
+            cut(x1, (x1 + x2) / 2, (y1 + y2) / 2 + 1, y2);
+            cut((x1 + x2) / 2 + 1, x2, (y1 + y2) / 2 + 1, y2);
+        }
     }
 }
