@@ -1,52 +1,42 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Main {
-    static int blue = 0;
-    static int white = 0;
-    static int[][] paper;
-
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stringTokenizer;
-        int n = Integer.parseInt(bufferedReader.readLine());
-        paper = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-            for (int j = 0; j < n; j++) {
-                paper[i][j] = Integer.parseInt(stringTokenizer.nextToken());
+        String[] str = bufferedReader.readLine().split(" ");
+        int n = Integer.parseInt(str[0]);
+        int m = Integer.parseInt(str[1]);
+        int[] arr = new int[100001];
+        Queue<Integer> queue = new LinkedList<>();
+        int count = 1;
+        arr[n] = 1;
+        queue.add(n);
+
+        while (n != m && arr[m] == 0) {
+             while (arr[queue.peek()] == count) {
+                 int i = queue.poll();
+                 if (i - 1 >= 0 && arr[i - 1] == 0) {
+                     arr[i - 1] = count + 1;
+                     queue.add(i - 1);
+                 }
+                 if (i + 1 < 100001 && arr[i + 1] == 0) {
+                     arr[i + 1] = count + 1;
+                     queue.add(i + 1);
+                 }
+                 if (i * 2 < 100001 && arr[i * 2] == 0) {
+                     arr[i * 2] = count + 1;
+                     queue.add(i * 2);
+                 }
             }
+            count++;
         }
 
-        cut(0, n - 1, 0, n - 1);
-
-
-        System.out.println(white + "\n" + blue);
+        System.out.println(arr[m] - 1);
 
         bufferedReader.close();
-    }
-
-    static void cut(int x1, int x2, int y1, int y2) {
-        int sum = 0;
-        for (int i = x1; i <= x2; i++) {
-            for (int j = y1; j <= y2; j++) {
-                sum += paper[j][i];
-            }
-        }
-
-        if (sum == 0) {
-            white++;
-        }
-        else if (sum == (x2 - x1 + 1) * (y2 - y1 + 1)) {
-            blue++;
-        }
-        else {
-            cut(x1, (x1 + x2) / 2, y1, (y1 + y2) / 2);
-            cut((x1 + x2) / 2 + 1, x2, y1, (y1 + y2) / 2);
-            cut(x1, (x1 + x2) / 2, (y1 + y2) / 2 + 1, y2);
-            cut((x1 + x2) / 2 + 1, x2, (y1 + y2) / 2 + 1, y2);
-        }
     }
 }
