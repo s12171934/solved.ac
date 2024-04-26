@@ -1,42 +1,56 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+
 
 public class Main {
+    static int[][] board;
+    static int[][] dist = new int[][]{{0,1},{0,-1},{1,0},{-1,0}};
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        String[] str = bufferedReader.readLine().split(" ");
-        int n = Integer.parseInt(str[0]);
-        int m = Integer.parseInt(str[1]);
-        int[] arr = new int[100001];
-        Queue<Integer> queue = new LinkedList<>();
-        int count = 1;
-        arr[n] = 1;
-        queue.add(n);
+        StringBuilder stringBuilder = new StringBuilder();
+        int t = Integer.parseInt(bufferedReader.readLine());
+        for (int i = 0; i < t; i++) {
+            String[] str = bufferedReader.readLine().split(" ");
+            int m = Integer.parseInt(str[0]);
+            int n = Integer.parseInt(str[1]);
+            int k = Integer.parseInt(str[2]);
+            board = new int[m][n];
 
-        while (n != m && arr[m] == 0) {
-             while (arr[queue.peek()] == count) {
-                 int i = queue.poll();
-                 if (i - 1 >= 0 && arr[i - 1] == 0) {
-                     arr[i - 1] = count + 1;
-                     queue.add(i - 1);
-                 }
-                 if (i + 1 < 100001 && arr[i + 1] == 0) {
-                     arr[i + 1] = count + 1;
-                     queue.add(i + 1);
-                 }
-                 if (i * 2 < 100001 && arr[i * 2] == 0) {
-                     arr[i * 2] = count + 1;
-                     queue.add(i * 2);
-                 }
+            for (int j = 0; j < k; j++) {
+                String[] pixel = bufferedReader.readLine().split(" ");
+                board[Integer.parseInt(pixel[0])][Integer.parseInt(pixel[1])] = 1;
             }
-            count++;
+
+            stringBuilder.append(countBugs(board)).append("\n");
         }
 
-        System.out.println(arr[m] - 1);
-
+        System.out.println(stringBuilder);
         bufferedReader.close();
+    }
+
+    static int countBugs(int[][] board) {
+        int count = 0;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == 1) {
+                    count++;
+                    board[i][j] = 0;
+                    DFS(i,j);
+                }
+            }
+        }
+        return count;
+    }
+
+    static void DFS(int i, int j) {
+        for (int[] d : dist) {
+            int dx = i + d[0];
+            int dy = j + d[1];
+            if(dx >= 0 && dx < board.length && dy >= 0 && dy < board[0].length && board[dx][dy] == 1) {
+                board[dx][dy] = 0;
+                DFS(dx,dy);
+            }
+        }
     }
 }
