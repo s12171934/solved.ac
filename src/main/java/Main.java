@@ -1,45 +1,65 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 
 public class Main {
-    static int[][] grid;
-    static boolean[] node;
-    static int n;
-    static int count = -1;
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stringTokenizer;
-        n = Integer.parseInt(bufferedReader.readLine());
-        int m = Integer.parseInt(bufferedReader.readLine());
+        StringBuilder stringBuilder = new StringBuilder();
+        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        int n = Integer.parseInt(stringTokenizer.nextToken());
+        int m = Integer.parseInt(stringTokenizer.nextToken());
+        int startX = 0;
+        int startY = 0;
+        int[][] dists = new int[][]{{0 , 1}, {0 , -1}, {1, 0}, {-1, 0}};
+        int[][] map = new int[n][m];
+        boolean[][] visited = new boolean[n][m];
 
-        grid = new int[n + 1][n + 1];
-        node = new boolean[n + 1];
-
-        for(int i = 0; i < m; i++) {
+        for (int i = 0; i < n; i++) {
             stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-            int x = Integer.parseInt(stringTokenizer.nextToken());
-            int y = Integer.parseInt(stringTokenizer.nextToken());
-
-            grid[x][y] = 1;
-            grid[y][x] = 1;
-        }
-
-        DFS(1);
-
-        System.out.println(count);
-        bufferedReader.close();
-    }
-
-    static void DFS(int value) {
-        node[value] = true;
-        count++;
-        for (int i = 1; i <= n; i++) {
-            if (grid[value][i] == 1 && !node[i]) {
-                DFS(i);
+            for (int j = 0; j < m; j++) {
+                int elem = Integer.parseInt(stringTokenizer.nextToken());
+                if (elem == 2) {
+                    startY = i;
+                    startX = j;
+                }
+                map[i][j] = elem;
             }
         }
+
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{startY, startX});
+        map[startY][startX] = 0;
+
+        while (!queue.isEmpty()) {
+            int[] node = queue.poll();
+            for (int[] dist : dists) {
+                int y = node[0] + dist[0];
+                int x = node[1] + dist[1];
+                if (y < 0 || y >= n || x < 0 || x >= m) continue;
+                if (visited[y][x] || map[y][x] == 0) continue;
+                queue.add(new int[]{y, x});
+                visited[y][x] = true;
+                map[y][x] = map[node[0]][node[1]] + 1;
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (!visited[i][j] && map[i][j] == 1) {
+                    stringBuilder.append(-1).append(" ");
+                }
+                else {
+                    stringBuilder.append(map[i][j]).append(" ");
+                }
+            }
+            stringBuilder.append("\n");
+        }
+        System.out.println(stringBuilder);
+        bufferedReader.close();
     }
 }
