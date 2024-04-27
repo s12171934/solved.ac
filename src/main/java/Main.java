@@ -8,13 +8,12 @@ public class Main {
     static int[][] grid;
     static boolean[] node;
     static int n;
+    static int count = -1;
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer stringTokenizer;
-        String[] str = bufferedReader.readLine().split(" ");
-        n = Integer.parseInt(str[0]);
-        int m = Integer.parseInt(str[1]);
-        int count = 0;
+        n = Integer.parseInt(bufferedReader.readLine());
+        int m = Integer.parseInt(bufferedReader.readLine());
 
         grid = new int[n + 1][n + 1];
         node = new boolean[n + 1];
@@ -28,12 +27,7 @@ public class Main {
             grid[y][x] = 1;
         }
 
-        for (int i = 1; i <= n; i++) {
-            if (!node[i]) {
-                DFS(i);
-               count++;
-            }
-        }
+        DFS(1);
 
         System.out.println(count);
         bufferedReader.close();
@@ -41,6 +35,7 @@ public class Main {
 
     static void DFS(int value) {
         node[value] = true;
+        count++;
         for (int i = 1; i <= n; i++) {
             if (grid[value][i] == 1 && !node[i]) {
                 DFS(i);
