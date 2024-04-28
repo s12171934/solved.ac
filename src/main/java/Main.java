@@ -27,9 +27,12 @@ public class Main {
 
     static void sequence(String prev, int M, boolean[] check) {
         String temp;
+        int k = 0;
         for (int i = 0; i < N; i++) {
             if(check[i]) continue;
+            if(arr[i] == k) continue;
             temp = prev + arr[i] + " ";
+            k = arr[i];
             if (M == 1) {
                 stringBuilder.append(temp).append("\n");
             }
