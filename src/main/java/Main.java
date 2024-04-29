@@ -1,46 +1,23 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-    static StringBuilder stringBuilder = new StringBuilder();
-    static int N;
-    static int[] arr;
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        String[] str = bufferedReader.readLine().split(" ");
-        N = Integer.parseInt(str[0]);
-        int M = Integer.parseInt(str[1]);
-        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-        arr = new int[N];
-        for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(stringTokenizer.nextToken());
-        }
-        Arrays.sort(arr);
+        int N = Integer.parseInt(bufferedReader.readLine());
+        int [][] rgb = new int[3][N + 1];
 
-        sequence("", M, new boolean[N]);
-        System.out.println(stringBuilder);
+        for (int i = 1; i <= N; i++) {
+            StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+            rgb[0][i] = Math.min(rgb[1][i - 1], rgb[2][i - 1]) + Integer.parseInt(stringTokenizer.nextToken());
+            rgb[1][i] = Math.min(rgb[0][i - 1], rgb[2][i - 1]) + Integer.parseInt(stringTokenizer.nextToken());
+            rgb[2][i] = Math.min(rgb[1][i - 1], rgb[0][i - 1]) + Integer.parseInt(stringTokenizer.nextToken());
+        }
+
+        System.out.println(Math.min(Math.min(rgb[0][N], rgb[1][N]), rgb[2][N]));
+
         bufferedReader.close();
-    }
-
-    static void sequence(String prev, int M, boolean[] check) {
-        String temp;
-        int k = 0;
-        for (int i = 0; i < N; i++) {
-            if(check[i]) continue;
-            if(arr[i] == k) continue;
-            temp = prev + arr[i] + " ";
-            k = arr[i];
-            if (M == 1) {
-                stringBuilder.append(temp).append("\n");
-            }
-            else {
-                boolean[] clone = check.clone();
-                clone[i] = true;
-                sequence(temp,M - 1, clone);
-            }
-        }
     }
 }
