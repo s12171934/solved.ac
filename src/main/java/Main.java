@@ -5,28 +5,10 @@ public class Main {
     static BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     public static void main(String[] args) throws Exception {
         StringBuilder stringBuilder = new StringBuilder();
-        int N = read();
-        int M = read();
-        int[][] matrix = new int[N + 1][N + 1];
-        for (int i = 1; i <= N; i++) {
-            for (int j = 1; j <= N; j++) {
-                matrix[i][j] = matrix[i][j - 1] + read();
-            }
+        int T = read();
+        for (int i = 0; i < T; i++) {
+            stringBuilder.append(sticker()).append("\n");
         }
-
-        for (int i = 0; i < M; i++) {
-            int x1 = read();
-            int y1 = read();
-            int x2 = read();
-            int y2 = read();
-            int result = 0;
-
-            for (int j = x1; j <= x2; j++){
-                result += matrix[j][y2] - matrix[j][y1 - 1];
-            }
-            stringBuilder.append(result).append("\n");
-        }
-
         System.out.println(stringBuilder);
         bufferedReader.close();
     }
@@ -40,5 +22,24 @@ public class Main {
             }
             res = 10 * res + pointer - 48;
         }
+    }
+
+    static int sticker() throws Exception {
+        int N = read();
+        int[][] arr = new int[N + 1][2];
+        for (int i = 0; i < 2; i++) {
+            for (int j = 1; j <= N; j++) {
+                arr[j][i] = read();
+            }
+        }
+
+        for (int i = 1; i <= N; i++) {
+            if (i == 1) continue;
+            for (int j = 0; j < 2; j++) {
+                arr[i][Math.abs(j - 1)] += Math.max(arr[i - 1][j], arr[i - 2][j]);
+            }
+        }
+
+        return Math.max(arr[N][0], arr[N][1]);
     }
 }
