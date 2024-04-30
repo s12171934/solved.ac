@@ -1,26 +1,55 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
     static BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static Map<String, String[]> node = new HashMap<>();
+    static String preorder = "";
+    static String inorder = "";
+    static String postorder = "";
     public static void main(String[] args) throws Exception {
         int N = read();
-        int max = 0;
-        int[] triangle = new int[N + 1];
-        int[] prev = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
-            for (int j = 1; j <= i; j++) {
-                triangle[j] = read() + Math.max(prev[j - 1], prev[j]);
-            }
-            prev = triangle.clone();
+        for (int i = 0; i < N; i++) {
+            String[] str = bufferedReader.readLine().split(" ");
+            node.put(str[0], new String[]{str[1], str[2]});
         }
+        setPreorder("A");
+        setInorder("A");
+        setPostorder("A");
 
-        for (int t : triangle) {
-            max = Math.max(max, t);
-        }
-
-        System.out.println(max);
+        System.out.println(preorder);
+        System.out.println(inorder);
+        System.out.println(postorder);
         bufferedReader.close();
+    }
+
+    static void setPreorder (String root) {
+        String left = node.get(root)[0];
+        String right = node.get(root)[1];
+
+        preorder += root;
+        if(!left.equals(".")) setPreorder(left);
+        if(!right.equals(".")) setPreorder(right);
+    }
+
+    static void setInorder (String root) {
+        String left = node.get(root)[0];
+        String right = node.get(root)[1];
+
+        if(!left.equals(".")) setInorder(left);
+        inorder += root;
+        if(!right.equals(".")) setInorder(right);
+    }
+
+    static void setPostorder (String root) {
+        String left = node.get(root)[0];
+        String right = node.get(root)[1];
+
+        if(!left.equals(".")) setPostorder(left);
+        if(!right.equals(".")) setPostorder(right);
+        postorder += root;
     }
 
     static int read() throws Exception {
