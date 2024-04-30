@@ -4,12 +4,36 @@ import java.io.InputStreamReader;
 public class Main {
     static BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     public static void main(String[] args) throws Exception {
-        StringBuilder stringBuilder = new StringBuilder();
-        int T = read();
-        for (int i = 0; i < T; i++) {
-            stringBuilder.append(sticker()).append("\n");
+        int N = read();
+        int[] arr = new int[N];
+        int[] dp = new int[N];
+        int result = 0;
+
+        for (int i = 0; i < N; i++) {
+            arr[i] = read();
         }
-        System.out.println(stringBuilder);
+
+        dp[0] = arr[0];
+
+        for (int i = 1; i < N; i++) {
+            int pointer = 0;
+            while (true) {
+                if(dp[pointer] == 0) {
+                    dp[pointer] = arr[i];
+                    result = pointer;
+                    break;
+                }
+                if(dp[pointer] < arr[i]) {
+                    pointer++;
+                }
+                else {
+                    dp[pointer] = Math.min(dp[pointer], arr[i]);
+                    break;
+                }
+            }
+        }
+
+        System.out.println(result + 1);
         bufferedReader.close();
     }
 
@@ -22,24 +46,5 @@ public class Main {
             }
             res = 10 * res + pointer - 48;
         }
-    }
-
-    static int sticker() throws Exception {
-        int N = read();
-        int[][] arr = new int[N + 1][2];
-        for (int i = 0; i < 2; i++) {
-            for (int j = 1; j <= N; j++) {
-                arr[j][i] = read();
-            }
-        }
-
-        for (int i = 1; i <= N; i++) {
-            if (i == 1) continue;
-            for (int j = 0; j < 2; j++) {
-                arr[i][Math.abs(j - 1)] += Math.max(arr[i - 1][j], arr[i - 2][j]);
-            }
-        }
-
-        return Math.max(arr[N][0], arr[N][1]);
     }
 }
