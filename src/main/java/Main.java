@@ -4,47 +4,26 @@ import java.io.InputStreamReader;
 public class Main {
     static BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     public static void main(String[] args) throws Exception {
-        int N = read();
-        int[] arr = new int[N];
-        int[] dp = new int[N];
-        int result = 0;
+        char[] row = bufferedReader.readLine().toCharArray();
+        char[] col = bufferedReader.readLine().toCharArray();
+        int[][] matrix = new int[col.length + 1][row.length + 1];
 
-        for (int i = 0; i < N; i++) {
-            arr[i] = read();
-        }
-
-        dp[0] = arr[0];
-
-        for (int i = 1; i < N; i++) {
-            int pointer = 0;
-            while (true) {
-                if(dp[pointer] == 0) {
-                    dp[pointer] = arr[i];
-                    result = pointer;
-                    break;
+        int colNum = 1;
+        for (char c : col) {
+            int rowNum = 1;
+            int l = 0;
+            for (char r : row) {
+                l = Math.max(l, matrix[colNum - 1][rowNum]);
+                if(c == r) {
+                    l = matrix[colNum - 1][rowNum - 1] + 1;
                 }
-                if(dp[pointer] < arr[i]) {
-                    pointer++;
-                }
-                else {
-                    dp[pointer] = Math.min(dp[pointer], arr[i]);
-                    break;
-                }
+                matrix[colNum][rowNum] = l;
+                rowNum++;
             }
+            colNum++;
         }
 
-        System.out.println(result + 1);
+        System.out.println(matrix[col.length][row.length]);
         bufferedReader.close();
-    }
-
-    static int read() throws Exception {
-        int res = 0;
-        while (true) {
-            int pointer = bufferedReader.read();
-            if (pointer == 32 || pointer == 10) {
-                return res;
-            }
-            res = 10 * res + pointer - 48;
-        }
     }
 }
